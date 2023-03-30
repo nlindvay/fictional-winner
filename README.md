@@ -14,3 +14,9 @@ https://automapper.org/
 
 ## Polly
 https://github.com/App-vNext/Polly
+
+
+
+Contracts Project ( No References )
+Application Layer - Consumers,Sagas,Etc. Project ( Abstractions )
+Infrastructure Layer - Store, Bus Configuration, Mediation
