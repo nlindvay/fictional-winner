@@ -1,3 +1,4 @@
+using Fw.Domain.Common.Interfaces;
 using Fw.Domain.Wms.Entities;
 using Fw.Infrastructure.Persistance.Wms.Extensions;
 using Microsoft.EntityFrameworkCore;

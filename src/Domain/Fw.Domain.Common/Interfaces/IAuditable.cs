@@ -1,4 +1,4 @@
-namespace Fw.Domain.Wms.Entities;
+namespace Fw.Domain.Common.Interfaces;
 
 public interface IAuditable
 {

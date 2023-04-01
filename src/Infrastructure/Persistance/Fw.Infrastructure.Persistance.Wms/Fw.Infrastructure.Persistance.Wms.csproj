@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Domain\Fw.Domain.Common\Fw.Domain.Common.csproj" />
     <ProjectReference Include="..\..\..\Domain\Fw.Domain.Wms\Fw.Domain.Wms.csproj" />
     <ProjectReference Include="..\..\..\Application\Fw.Application.Wms\Fw.Application.Wms.csproj" />
   </ItemGroup>

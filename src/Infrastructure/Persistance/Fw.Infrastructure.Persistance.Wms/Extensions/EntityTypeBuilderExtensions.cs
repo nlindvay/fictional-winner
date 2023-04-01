@@ -1,31 +1,30 @@
-namespace Fw.Infrastructure.Persistance.Wms.Extensions
+using Fw.Domain.Common.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Fw.Infrastructure.Persistance.Wms.Extensions;
+
+public static class EntityTypeBuilderExtensions
 {
-    using Fw.Domain.Wms.Entities;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-    public static class EntityTypeBuilderExtensions
+    public static EntityTypeBuilder<TEntity> ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        where TEntity : class, IEntity
     {
-        public static EntityTypeBuilder<TEntity> ConfigureBaseEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
-            where TEntity : class, IEntity
-        {
-            builder.HasKey(e => e.Id);
-            builder.Property(e => e.ClientId).IsRequired();
-            builder.Property(e => e.IsActive).IsRequired();
-            builder.Property(e => e.IsDeleted).IsRequired();
-            builder.Property(e => e.Version).IsRowVersion();
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.ClientId).IsRequired();
+        builder.Property(e => e.IsActive).IsRequired();
+        builder.Property(e => e.IsDeleted).IsRequired();
+        builder.Property(e => e.Version).IsRowVersion();
 
-            return builder;
-        }
+        return builder;
+    }
 
-        public static EntityTypeBuilder<TEntity> ConfigureAuditableEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
-            where TEntity : class, IAuditable
-        {
-            builder.Property(e => e.CreatedBy).IsRequired();
-            builder.Property(e => e.CreatedDate).IsRequired();
-            builder.Property(e => e.LastModifiedBy).IsRequired(false);
-            builder.Property(e => e.LastModifiedDate).IsRequired(false);
+    public static EntityTypeBuilder<TEntity> ConfigureAuditableEntity<TEntity>(this EntityTypeBuilder<TEntity> builder)
+        where TEntity : class, IAuditable
+    {
+        builder.Property(e => e.CreatedBy).IsRequired();
+        builder.Property(e => e.CreatedDate).IsRequired();
+        builder.Property(e => e.LastModifiedBy).IsRequired(false);
+        builder.Property(e => e.LastModifiedDate).IsRequired(false);
 
-            return builder;
-        }
+        return builder;
     }
 }

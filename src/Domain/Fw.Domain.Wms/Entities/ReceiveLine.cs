@@ -1,3 +1,5 @@
+using Fw.Domain.Common.Interfaces;
+
 namespace Fw.Domain.Wms.Entities;
 
 public class ReceiveLine : IEntity, IAuditable
