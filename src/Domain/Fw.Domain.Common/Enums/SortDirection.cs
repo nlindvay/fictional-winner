@@ -1,4 +1,4 @@
-namespace Fw.Domain.Wms.Enums;
+namespace Fw.Domain.Common.Enums;
 
 public enum SortDirection
 {

@@ -1,5 +1,5 @@
 using Fw.Domain.Wms.Contracts;
-using Fw.Domain.Wms.Enums;
+using Fw.Domain.Common.Enums;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.AspNetCore.Mvc;

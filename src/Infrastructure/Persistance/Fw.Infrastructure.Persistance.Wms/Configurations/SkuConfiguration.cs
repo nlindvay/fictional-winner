@@ -1,5 +1,5 @@
 using Fw.Domain.Wms.Entities;
-using Fw.Infrastructure.Persistance.Wms.Extensions;
+using Fw.Infrastructure.Persistance.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

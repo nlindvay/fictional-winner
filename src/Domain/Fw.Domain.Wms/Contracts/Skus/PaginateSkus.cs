@@ -1,4 +1,4 @@
-using Fw.Domain.Wms.Enums;
+using Fw.Domain.Common.Enums;
 using MassTransit.Mediator;
 
 namespace Fw.Domain.Wms.Contracts;

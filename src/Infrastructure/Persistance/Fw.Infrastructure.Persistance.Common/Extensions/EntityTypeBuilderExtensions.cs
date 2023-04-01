@@ -1,7 +1,7 @@
 using Fw.Domain.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Fw.Infrastructure.Persistance.Wms.Extensions;
+namespace Fw.Infrastructure.Persistance.Common.Extensions;
 
 public static class EntityTypeBuilderExtensions
 {
