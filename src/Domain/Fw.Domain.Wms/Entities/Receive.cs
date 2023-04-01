@@ -2,7 +2,7 @@ using Fw.Domain.Wms.Enums;
 
 namespace Fw.Domain.Wms.Entities;
 
-public class Order : IEntity, IAuditable
+public class Receive : IEntity, IAuditable
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; } = Guid.Empty;
@@ -16,6 +16,6 @@ public class Order : IEntity, IAuditable
     public string PrimaryReference { get; set; }
     public string SecondaryReference { get; set; }
     public Guid CustomerId { get; set; }
-    public OrderStatus OrderStatus { get; set; }
-    public ICollection<OrderLine> OrderLines { get; set; }
+    public ReceiveStatus ReceiveStatus { get; set; }
+    public ICollection<ReceiveLine> ReceiveLines { get; set; }
 }

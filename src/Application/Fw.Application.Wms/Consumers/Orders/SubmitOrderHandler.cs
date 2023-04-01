@@ -1,3 +1,4 @@
+using AutoMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Wms.Contracts;
 using Fw.Domain.Wms.Entities;
@@ -7,29 +8,31 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Wms.Consumers;
 
-public class SubmitOrderConsumer : MediatorRequestHandler<SubmitOrder, OrderSubmitted>
+public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmitted>
 
 {
     readonly IApplicationDbContext _context;
-    readonly ILogger<SubmitOrderConsumer> _logger;
+    readonly ILogger<SubmitOrderHandler> _logger;
+    readonly IMapper _mapper; 
 
-    public SubmitOrderConsumer(IApplicationDbContext context, ILogger<SubmitOrderConsumer> logger)
+    public SubmitOrderHandler(IApplicationDbContext context, ILogger<SubmitOrderHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
+        _mapper = mapper;
     }
 
     protected override async Task<OrderSubmitted> Handle(SubmitOrder request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("SubmitOrderConsumer: {OrderReference}", request.OrderReference);
+        _logger.LogInformation("SubmitOrderConsumer: {PrimaryReference}", request.PrimaryReference);
         
         var order = new Order
         {
-            OrderId = NewId.NextGuid(),
+            Id = NewId.NextGuid(),
             ClientId = NewId.NextGuid(),
             CustomerId = NewId.NextGuid(),
-            OrderReference = request.OrderReference,
-            CustomerReference = request.CustomerReference,
+            PrimaryReference = request.PrimaryReference,
+            SecondaryReference = request.SecondaryReference,
             OrderStatus = Domain.Wms.Enums.OrderStatus.Submitted
         };
 
@@ -38,7 +41,7 @@ public class SubmitOrderConsumer : MediatorRequestHandler<SubmitOrder, OrderSubm
 
         return new OrderSubmitted
         {
-            OrderId = order.OrderId
+            OrderId = order.Id
         };
     }
 }

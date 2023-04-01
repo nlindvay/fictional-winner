@@ -1,7 +1,8 @@
 namespace Fw.Domain.Wms.Contracts
 {
-    public record OrderSubmitted
+    public record OrderLineAdded
     {
         public Guid OrderId { get; set; }
+        public Guid OrderLineId { get; set; }
     }
 }

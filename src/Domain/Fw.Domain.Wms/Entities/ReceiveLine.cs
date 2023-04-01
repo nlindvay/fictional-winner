@@ -1,8 +1,6 @@
-using Fw.Domain.Wms.Enums;
-
 namespace Fw.Domain.Wms.Entities;
 
-public class Order : IEntity, IAuditable
+public class ReceiveLine : IEntity, IAuditable
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; } = Guid.Empty;
@@ -13,9 +11,10 @@ public class Order : IEntity, IAuditable
     public string LastModifiedBy { get; set; } = null;
     public DateTime? LastModifiedDate { get; set; } = null;
     public int Version { get; set; } = 1;
-    public string PrimaryReference { get; set; }
-    public string SecondaryReference { get; set; }
-    public Guid CustomerId { get; set; }
-    public OrderStatus OrderStatus { get; set; }
-    public ICollection<OrderLine> OrderLines { get; set; }
+    public int LineNumber { get; set; }
+    public int Quantity { get; set; }
+    public Guid SkuId { get; set; }
+    public Sku Sku { get; set; }
+    public Guid ReceiveId { get; set; }
+    public Receive Receive { get; set; }
 }

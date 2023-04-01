@@ -8,5 +8,5 @@
   <ItemGroup>
     <PackageReference Include="MassTransit.Abstractions" Version="8.0.14" />
   </ItemGroup>
-  
+
 </Project>
