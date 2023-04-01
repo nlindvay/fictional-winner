@@ -3,7 +3,8 @@ using MassTransit.Mediator;
 
 namespace Fw.Domain.Tms.Contracts;
 
-public class GetShipment : Request<ShipmentDto>
+public record BookOrder : Request<OrderBooked>
+
 {
-    public Guid ShipmentId { get; set; }
+    OrderDto Order { get; init; }
 }

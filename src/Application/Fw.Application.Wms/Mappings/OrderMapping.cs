@@ -1,5 +1,6 @@
 using AutoMapper;
-using Fw.Domain.Wms.Contracts;
+using Fw.Domain.Common.Contracts;
+using Fw.Domain.Common.Dtos;
 using Fw.Domain.Wms.Entities;
 
 namespace Fw.Application.Wms.Mappings;
@@ -14,7 +15,9 @@ public class OrderMappings : Profile
             .ReverseMap();
         CreateMap<OrderLine, OrderLineDto>()
             .ReverseMap();
-
+        CreateMap<Order, OrderBookingRequested>()
+            .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src))
+            .ReverseMap();
         
     }
 }

@@ -1,5 +1,5 @@
 using AutoMapper;
-using Fw.Domain.Wms.Contracts;
+using Fw.Domain.Common.Dtos;
 using Fw.Domain.Wms.Entities;
 
 namespace Fw.Application.Wms.Mappings;

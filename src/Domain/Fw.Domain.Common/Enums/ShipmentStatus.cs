@@ -1,4 +1,4 @@
-namespace Fw.Domain.Tms.Enums;
+namespace Fw.Domain.Common.Enums;
 
 public enum ShipmentStatus
 {

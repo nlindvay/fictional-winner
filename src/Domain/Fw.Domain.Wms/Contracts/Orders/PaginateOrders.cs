@@ -1,3 +1,4 @@
+using Fw.Domain.Common.Dtos;
 using Fw.Domain.Common.Enums;
 using MassTransit.Mediator;
 

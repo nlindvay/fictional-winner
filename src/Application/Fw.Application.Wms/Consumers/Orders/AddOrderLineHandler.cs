@@ -8,18 +8,21 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Wms.Consumers;
 
-public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine,OrderLineAdded>
+public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLineAdded>
 {
 
     readonly IWmsDbContext _context;
     readonly ILogger<GetOrderHandler> _logger;
-    readonly IMapper _mapper; 
+    readonly IMapper _mapper;
+    readonly IBus _bus;
 
-    public AddOrderLineHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper)
+
+    public AddOrderLineHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper, IBus bus)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
+        _bus = bus;
     }
 
     protected override async Task<OrderLineAdded> Handle(AddOrderLine request, CancellationToken cancellationToken)
@@ -38,12 +41,17 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine,OrderLine
         };
 
         _context.OrderLines.Add(orderLine);
+
         await _context.SaveChangesAsync(cancellationToken);
 
-        return new OrderLineAdded
+        var orderLineAdded = new OrderLineAdded
         {
             OrderId = order.Id,
             OrderLineId = orderLine.Id
         };
+
+        await _bus.Publish(orderLineAdded);
+
+        return orderLineAdded;
     }
 }

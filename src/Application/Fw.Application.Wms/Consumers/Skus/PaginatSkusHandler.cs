@@ -1,5 +1,6 @@
 using AutoMapper;
 using Fw.Application.Wms.Interfaces;
+using Fw.Domain.Common.Dtos;
 using Fw.Domain.Wms.Contracts;
 using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;

@@ -51,4 +51,12 @@ public class OrdersController : ControllerBase
 
         return Ok(await _mediator.SendRequest(addOrderLine, cancellationToken));
     }
+
+    [HttpPost("{orderId}/actions/requestBooking")]
+    public async Task<IActionResult> RequestBooking(Guid orderId, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Requesting booking for order {OrderId}", orderId);
+
+        return Ok(await _mediator.SendRequest(new RequestOrderBooking { OrderId = orderId }, cancellationToken));
+    }
 }

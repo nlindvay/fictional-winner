@@ -1,21 +1,21 @@
-using Fw.Domain.Tms.Enums;
+using Fw.Domain.Common.Enums;
 
-namespace Fw.Domain.Tms.Dtos;
+namespace Fw.Domain.Common.Dtos;
 
-public record ShipmentDto
+public record OrderDto
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; }
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; }
-    public int Version { get; set; }
     public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public string LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
-    public Guid CustomerId { get; set; }
+    public int Version { get; set; }
     public string PrimaryReference { get; set; }
     public string SecondaryReference { get; set; }
-    public ShipmentStatus ShipmentStatus { get; set; }
-    public PackDto[] Packages { get; set; }
+    public Guid CustomerId { get; set; }
+    public OrderStatus OrderStatus { get; set; }
+    public OrderLineDto[] OrderLines { get; set; }
 }

@@ -34,8 +34,24 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<WmsDbContext>(options => options.UseInMemoryDatabase("WmsDb"));
 builder.Services.AddScoped<IWmsDbContext>(provider => provider.GetService<WmsDbContext>());
 
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("wms", false));
+
+    });
+});
+
 builder.Services.AddMediator(cfg =>
 {
+    cfg.AddConsumer<RequestOrderBookingHandler>();
     cfg.AddConsumer<SubmitOrderHandler>();
     cfg.AddConsumer<GetOrderHandler>();
     cfg.AddConsumer<PaginateOrdersHandler>();

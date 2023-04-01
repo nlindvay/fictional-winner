@@ -1,5 +1,5 @@
 using Fw.Domain.Common.Enums;
-using Fw.Domain.Tms.Dtos;
+using Fw.Domain.Common.Dtos;
 using MassTransit.Mediator;
 
 namespace Fw.Domain.Tms.Contracts;

@@ -1,5 +1,5 @@
 using Fw.Domain.Common.Interfaces;
-using Fw.Domain.Wms.Enums;
+using Fw.Domain.Common.Enums;
 
 namespace Fw.Domain.Wms.Entities;
 

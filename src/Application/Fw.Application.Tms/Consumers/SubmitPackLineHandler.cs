@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class SubmitPackLineConsumer : MediatorRequestHandler<SubmitPackLine, PackLineSubmitted>
+public class SubmitPackLineHandler : MediatorRequestHandler<SubmitPackLine, PackLineSubmitted>
 {
     readonly ITmsDbContext _context;
-    readonly ILogger<SubmitPackLineConsumer> _logger;
+    readonly ILogger<SubmitPackLineHandler> _logger;
     readonly IMapper _mapper;
 
-    public SubmitPackLineConsumer(ITmsDbContext context, ILogger<SubmitPackLineConsumer> logger, IMapper mapper)
+    public SubmitPackLineHandler(ITmsDbContext context, ILogger<SubmitPackLineHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

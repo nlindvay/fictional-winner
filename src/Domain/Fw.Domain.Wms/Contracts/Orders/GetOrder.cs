@@ -1,3 +1,4 @@
+using Fw.Domain.Common.Dtos;
 using MassTransit.Mediator;
 
 namespace Fw.Domain.Wms.Contracts;

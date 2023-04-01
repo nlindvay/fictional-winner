@@ -1,6 +1,6 @@
-namespace Fw.Domain.Wms.Contracts;
+namespace Fw.Domain.Common.Dtos;
 
-public record OrderLineDto
+public record SkuDto
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; }
@@ -11,8 +11,7 @@ public record OrderLineDto
     public string LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
     public int Version { get; set; }
-    public int LineNumber { get; set; }
-    public int Quantity { get; set; }
-    public Guid SkuId { get; set; }
-    public Guid OrderId { get; set; }
+    public string SkuCode { get; set; }
+    public string SkuDescription { get; set; }
+
 }

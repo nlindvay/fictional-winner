@@ -1,5 +1,6 @@
 using AutoMapper;
 using Fw.Application.Wms.Interfaces;
+using Fw.Domain.Common.Dtos;
 using Fw.Domain.Wms.Contracts;
 using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Fw.Application.Wms.Consumers;
 
 public class GetOrderHandler : MediatorRequestHandler<GetOrder, OrderDto>
+
 {
     readonly IWmsDbContext _context;
     private readonly ILogger<GetOrderHandler> _logger;

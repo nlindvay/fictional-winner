@@ -34,12 +34,27 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<TmsDbContext>(options => options.UseInMemoryDatabase("TmsDb"));
 builder.Services.AddScoped<ITmsDbContext>(provider => provider.GetService<TmsDbContext>());
 
+builder.Services.AddMassTransit(cfg =>
+{
+    cfg.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("wms", false));
+
+    });
+});
+
 builder.Services.AddMediator(cfg =>
 {
-    cfg.AddConsumer<SubmitShipmentConsumer>();
-    cfg.AddConsumer<SubmitPackConsumer>();
-    cfg.AddConsumer<SubmitPackLineConsumer>();
-    cfg.AddConsumer<PaginateShipmentsConsumer>();
+    cfg.AddConsumer<SubmitShipmentHandler>();
+    cfg.AddConsumer<SubmitPackHandler>();
+    cfg.AddConsumer<SubmitPackLineHandler>();
+    cfg.AddConsumer<PaginateShipmentsHandler>();
     cfg.AddConsumer<GetShipmentConsumer>();
 });
 

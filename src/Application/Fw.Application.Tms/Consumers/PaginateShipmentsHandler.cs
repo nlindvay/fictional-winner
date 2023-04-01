@@ -1,20 +1,20 @@
 using AutoMapper;
 using Fw.Application.Tms.Interfaces;
 using Fw.Domain.Tms.Contracts;
-using Fw.Domain.Tms.Dtos;
+using Fw.Domain.Common.Dtos;
 using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class PaginateShipmentsConsumer : MediatorRequestHandler<PaginateShipments, ShipmentDto[]>
+public class PaginateShipmentsHandler : MediatorRequestHandler<PaginateShipments, ShipmentDto[]>
 {
     readonly ITmsDbContext _context;
-    readonly ILogger<PaginateShipmentsConsumer> _logger;
+    readonly ILogger<PaginateShipmentsHandler> _logger;
     readonly IMapper _mapper;
 
-    public PaginateShipmentsConsumer(ITmsDbContext context, ILogger<PaginateShipmentsConsumer> logger, IMapper mapper)
+    public PaginateShipmentsHandler(ITmsDbContext context, ILogger<PaginateShipmentsHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

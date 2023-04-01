@@ -1,7 +1,7 @@
 using AutoMapper;
 using Fw.Application.Tms.Interfaces;
 using Fw.Domain.Tms.Contracts;
-using Fw.Domain.Tms.Dtos;
+using Fw.Domain.Common.Dtos;
 using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

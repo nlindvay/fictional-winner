@@ -1,17 +1,19 @@
-namespace Fw.Domain.Wms.Contracts;
+using Fw.Domain.Common.Interfaces;
 
-public record SkuDto
+namespace Fw.Domain.Common.Dtos;
+
+public record PackDto
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; }
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; }
+    public int Version { get; set; }
     public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }
     public string LastModifiedBy { get; set; }
     public DateTime? LastModifiedDate { get; set; }
-    public int Version { get; set; }
-    public string SkuCode { get; set; }
-    public string SkuDescription { get; set; }
-
+    public Guid CustomerId { get; set; }
+    public PackLineDto[] PackLines { get; set; }
+    public Guid ShipmentId { get; set; }
 }
