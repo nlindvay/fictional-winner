@@ -9,11 +9,11 @@ namespace Fw.Application.Wms.Consumers;
 
 public class PaginateSkusHandler : MediatorRequestHandler<PaginateSkus, SkuDto[]>
 {
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     private readonly ILogger<PaginateSkusHandler> _logger;
     readonly IMapper _mapper;
 
-    public PaginateSkusHandler(IApplicationDbContext context, ILogger<PaginateSkusHandler> logger, IMapper mapper)
+    public PaginateSkusHandler(IWmsDbContext context, ILogger<PaginateSkusHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

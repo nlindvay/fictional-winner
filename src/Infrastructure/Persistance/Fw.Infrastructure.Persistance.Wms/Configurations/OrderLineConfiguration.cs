@@ -17,7 +17,7 @@ public class OrderLineConfiguration : IEntityTypeConfiguration<OrderLine>
         builder.Property(x => x.LineNumber)
             .IsRequired();
 
-        builder.Property(x => x.Quantity)
+        builder.Property(x => x.LineQuantity)
             .IsRequired();
 
         builder.Property(x => x.SkuId)

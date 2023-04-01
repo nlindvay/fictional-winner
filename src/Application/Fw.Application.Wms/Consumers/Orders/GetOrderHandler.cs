@@ -9,11 +9,11 @@ namespace Fw.Application.Wms.Consumers;
 
 public class GetOrderHandler : MediatorRequestHandler<GetOrder, OrderDto>
 {
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     private readonly ILogger<GetOrderHandler> _logger;
     readonly IMapper _mapper;
 
-    public GetOrderHandler(IApplicationDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper)
+    public GetOrderHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

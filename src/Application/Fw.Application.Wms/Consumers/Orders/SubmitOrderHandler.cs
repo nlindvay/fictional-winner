@@ -11,11 +11,11 @@ namespace Fw.Application.Wms.Consumers;
 public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmitted>
 
 {
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     readonly ILogger<SubmitOrderHandler> _logger;
     readonly IMapper _mapper; 
 
-    public SubmitOrderHandler(IApplicationDbContext context, ILogger<SubmitOrderHandler> logger, IMapper mapper)
+    public SubmitOrderHandler(IWmsDbContext context, ILogger<SubmitOrderHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

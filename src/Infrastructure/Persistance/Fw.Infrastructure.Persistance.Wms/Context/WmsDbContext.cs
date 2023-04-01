@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fw.Infrastructure.Persistance.Wms;
 
-public class ApplicationDbContext : DbContext, IApplicationDbContext
+public class WmsDbContext : DbContext, IWmsDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    public WmsDbContext(DbContextOptions<WmsDbContext> options) : base(options)
     {
     }
 

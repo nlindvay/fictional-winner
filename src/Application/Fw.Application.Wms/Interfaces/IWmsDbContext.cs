@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Fw.Application.Wms.Interfaces;
 
-public interface IApplicationDbContext
+public interface IWmsDbContext
 {
     DbSet<Order> Orders { get; }
     DbSet<OrderLine> OrderLines { get; }

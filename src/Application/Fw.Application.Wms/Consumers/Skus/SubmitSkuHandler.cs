@@ -11,11 +11,11 @@ namespace Fw.Application.Wms.Consumers;
 public class SubmitSkuHandler : MediatorRequestHandler<SubmitSku, SkuSubmitted>
 
 {
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     readonly ILogger<SubmitSkuHandler> _logger;
     readonly IMapper _mapper; 
 
-    public SubmitSkuHandler(IApplicationDbContext context, ILogger<SubmitSkuHandler> logger, IMapper mapper)
+    public SubmitSkuHandler(IWmsDbContext context, ILogger<SubmitSkuHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

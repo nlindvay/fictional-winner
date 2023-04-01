@@ -31,8 +31,8 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddMaps(assemblies);
 });
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("WmsDb"));
-builder.Services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+builder.Services.AddDbContext<WmsDbContext>(options => options.UseInMemoryDatabase("WmsDb"));
+builder.Services.AddScoped<IWmsDbContext>(provider => provider.GetService<WmsDbContext>());
 
 builder.Services.AddMediator(cfg =>
 {

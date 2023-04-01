@@ -11,11 +11,11 @@ namespace Fw.Application.Wms.Consumers;
 public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine,OrderLineAdded>
 {
 
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     readonly ILogger<GetOrderHandler> _logger;
     readonly IMapper _mapper; 
 
-    public AddOrderLineHandler(IApplicationDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper)
+    public AddOrderLineHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
@@ -34,7 +34,7 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine,OrderLine
             Id = NewId.NextGuid(),
             OrderId = order.Id,
             SkuId = sku.Id,
-            Quantity = request.Quantity
+            LineQuantity = request.Quantity
         };
 
         _context.OrderLines.Add(orderLine);

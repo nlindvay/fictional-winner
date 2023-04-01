@@ -8,11 +8,11 @@ namespace Fw.Application.Wms.Consumers;
 
 public class GetSkuHandler : MediatorRequestHandler<GetSku, SkuDto>
 {
-    readonly IApplicationDbContext _context;
+    readonly IWmsDbContext _context;
     private readonly ILogger<GetSkuHandler> _logger;
     readonly IMapper _mapper;
 
-    public GetSkuHandler(IApplicationDbContext context, ILogger<GetSkuHandler> logger, IMapper mapper)
+    public GetSkuHandler(IWmsDbContext context, ILogger<GetSkuHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
