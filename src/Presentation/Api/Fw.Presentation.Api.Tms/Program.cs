@@ -1,5 +1,6 @@
 using Fw.Application.Tms.Consumers;
 using Fw.Application.Tms.Interfaces;
+using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Tms;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,9 @@ builder.Services.AddScoped<ITmsDbContext>(provider => provider.GetService<TmsDbC
 
 builder.Services.AddMassTransit(cfg =>
 {
+
+    cfg.AddConsumer<OrderBookingRequestedConsumer>();
+
     cfg.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("localhost", "/", h =>
@@ -45,7 +49,6 @@ builder.Services.AddMassTransit(cfg =>
         });
 
         cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("wms", false));
-
     });
 });
 

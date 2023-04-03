@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Fw.Domain.Common\Fw.Domain.Common.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="MassTransit.Abstractions" Version="8.0.14" />
+  </ItemGroup>
+
+</Project>

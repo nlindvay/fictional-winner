@@ -2,6 +2,7 @@ using AutoMapper;
 using Fw.Domain.Tms.Contracts;
 using Fw.Domain.Common.Dtos;
 using Fw.Domain.Tms.Entities;
+using Fw.Domain.Common.Contracts;
 
 namespace Fw.Application.Tms.Mappings;
 
@@ -27,7 +28,9 @@ public class ShipmentMapping : Profile
         CreateMap<SubmitPackLine, PackLine>()
             .ReverseMap();
 
-        CreateMap<BookOrder, Shipment>();
+        CreateMap<OrderDto, Shipment>();
+
+        
 
     }
 }

@@ -7,14 +7,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class OrderBookingRequestedHandler : IConsumer<OrderBookingRequested>
+public class OrderBookingRequestedConsumer : IConsumer<OrderBookingRequested>
 
 {
     private readonly ITmsDbContext _context;
-    private readonly ILogger<OrderBookingRequestedHandler> _logger;
+    private readonly ILogger<OrderBookingRequestedConsumer> _logger;
     private readonly IMapper _mapper;
 
-    public OrderBookingRequestedHandler(ITmsDbContext context, ILogger<OrderBookingRequestedHandler> logger, IMapper mapper)
+    public OrderBookingRequestedConsumer(ITmsDbContext context, ILogger<OrderBookingRequestedConsumer> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
@@ -25,7 +25,7 @@ public class OrderBookingRequestedHandler : IConsumer<OrderBookingRequested>
     {
         _logger.LogInformation("OrderBookingRequestedConsumer: {OrderId}", context.Message.Order.Id);
 
-        var shipment = _mapper.Map<Shipment>(context.Message);
+        var shipment = _mapper.Map<Shipment>(context.Message.Order);
 
         _context.Shipments.Add(shipment);
 
