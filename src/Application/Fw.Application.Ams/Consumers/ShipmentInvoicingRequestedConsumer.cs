@@ -8,10 +8,18 @@ using Microsoft.Extensions.Logging;
 namespace Fw.Application.Ams.Consumers;
 
 public class ShipmentInvoicingRequestedConsumer : IConsumer<ShipmentInvoicingRequested>
+
 {
     readonly IAmsDbContext _context;
     readonly ILogger<ShipmentInvoicingRequestedConsumer> _logger;
     readonly IMapper _mapper;
+
+    public ShipmentInvoicingRequestedConsumer(IAmsDbContext context, ILogger<ShipmentInvoicingRequestedConsumer> logger, IMapper mapper)
+    {
+        _context = context;
+        _logger = logger;
+        _mapper = mapper;
+    }
 
     public async Task Consume(ConsumeContext<ShipmentInvoicingRequested> context)
     {

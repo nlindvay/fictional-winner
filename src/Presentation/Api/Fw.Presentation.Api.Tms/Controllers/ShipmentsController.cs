@@ -59,4 +59,12 @@ public class ShipmentsController : ControllerBase
 
         return Ok(await _mediator.SendRequest(submitPackLine, cancellationToken));
     }
+
+    [HttpPost("{shipmentId}/actions/invoice")]
+    public async Task<IActionResult> RequestShipmentInvoicing(Guid shipmentId, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Requesting Shipment Invoicing {ShipmentId}", shipmentId);
+
+        return Ok(await _mediator.SendRequest(new RequestShipmentInvoicing { ShipmentId = shipmentId }, cancellationToken));
+    }
 }

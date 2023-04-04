@@ -28,9 +28,13 @@ public class ShipmentMapping : Profile
         CreateMap<SubmitPackLine, PackLine>()
             .ReverseMap();
 
-        CreateMap<OrderDto, Shipment>();
+        CreateMap<OrderDto, Shipment>()
+            .ReverseMap();
 
-        
+        CreateMap<OrderLineDto, Pack>();
 
+        CreateMap<Shipment, ShipmentInvoicingRequested>()
+            .ForMember(dest => dest.Shipment, opt => opt.MapFrom(src => src))
+            .ReverseMap();
     }
 }

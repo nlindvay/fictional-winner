@@ -27,13 +27,15 @@ public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBoo
 
     protected override async Task<OrderBookingRequested> Handle(RequestOrderBooking request, CancellationToken cancellationToken)
     {
-        var order = _context.Orders.Include(order => order.OrderLines).FirstOrDefault(order => order.Id == request.OrderId);
+        var order = _context.Orders
+            .Include(order => order.OrderLines)
+            .FirstOrDefault(order => order.Id == request.OrderId);
 
         var orderBookingRequested = _mapper.Map<OrderBookingRequested>(order);
 
         if (order == null)
         {
-            _logger.LogInformation("RequestOrderBookingConsumer: {OrderId} not found", request.OrderId);
+            _logger.LogInformation("RequestOrderBookingHandler: {OrderId} not found", request.OrderId);
             return null;
         }
         else

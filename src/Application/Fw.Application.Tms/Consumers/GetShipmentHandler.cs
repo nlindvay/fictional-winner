@@ -8,13 +8,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class GetShipmentConsumer : MediatorRequestHandler<GetShipment, ShipmentDto>
+public class GetShipmentHandler : MediatorRequestHandler<GetShipment, ShipmentDto>
 {
     readonly ITmsDbContext _context;
-    readonly ILogger<GetShipmentConsumer> _logger;
+    readonly ILogger<GetShipmentHandler> _logger;
     readonly IMapper _mapper;
 
-    public GetShipmentConsumer(ITmsDbContext context, ILogger<GetShipmentConsumer> logger, IMapper mapper)
+    public GetShipmentHandler(ITmsDbContext context, ILogger<GetShipmentHandler> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;

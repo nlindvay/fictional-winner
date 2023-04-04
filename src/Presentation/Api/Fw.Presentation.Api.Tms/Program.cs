@@ -58,7 +58,8 @@ builder.Services.AddMediator(cfg =>
     cfg.AddConsumer<SubmitPackHandler>();
     cfg.AddConsumer<SubmitPackLineHandler>();
     cfg.AddConsumer<PaginateShipmentsHandler>();
-    cfg.AddConsumer<GetShipmentConsumer>();
+    cfg.AddConsumer<GetShipmentHandler>();
+    cfg.AddConsumer<RequestShipmentInvoicingHandler>();
 });
 
 
@@ -71,7 +72,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fw.Presentation.Api.Tms v1"));
 }
 
 app.MapControllers();
