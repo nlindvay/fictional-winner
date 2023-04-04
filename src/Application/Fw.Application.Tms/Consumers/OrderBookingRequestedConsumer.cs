@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class OrderBookingRequestedConsumer : IConsumer<OrderBookingRequested>
+public class OrderBookingRequestedConsumer : IConsumer<OrderShippingRequested>
 
 {
     private readonly ITmsDbContext _context;
@@ -21,7 +21,7 @@ public class OrderBookingRequestedConsumer : IConsumer<OrderBookingRequested>
         _mapper = mapper;
     }
 
-    public async Task Consume(ConsumeContext<OrderBookingRequested> context)
+    public async Task Consume(ConsumeContext<OrderShippingRequested> context)
     {
         _logger.LogInformation("OrderBookingRequestedConsumer: {OrderId}", context.Message.Order.Id);
 

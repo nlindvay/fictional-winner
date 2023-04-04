@@ -44,7 +44,7 @@ builder.Services.AddMassTransit(cfg =>
             h.Password("guest");
         });
 
-        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("wms", false));
+        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("fw", false));
 
     });
 });
@@ -71,7 +71,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fw.Presentation.Api.Wms v1"));
+    app.UseSwaggerUI();
 }
 
 app.MapControllers();
