@@ -30,6 +30,5 @@ public class GetInvoiceHandler : MediatorRequestHandler<GetInvoice, InvoiceDto>
             .FirstOrDefaultAsync(s => s.Id == request.InvoiceId, cancellationToken);
 
         return invoice == null ? null : _mapper.Map<InvoiceDto>(invoice);
-
     }
 }

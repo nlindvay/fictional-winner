@@ -34,7 +34,13 @@ public class SubmitInvoiceHandler : MediatorRequestHandler<SubmitInvoice, Invoic
         _context.Invoices.Add(invoice);
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish<InvoiceCreated>(new { InvoiceId = invoice.Id, InvoiceStatus = invoice.InvoiceStatus, ShipmentId = invoice.ShipmentId, });
+        await _publishEndpoint.Publish<InvoiceCreated>(new
+        {
+            InvoiceId = invoice.Id,
+            InvoiceStatus = invoice.InvoiceStatus,
+            ShipmentId = invoice.ShipmentId,
+            OrderId = invoice.OrderId
+        });
 
         return new InvoiceSubmitted { InvoiceId = invoice.Id };
     }

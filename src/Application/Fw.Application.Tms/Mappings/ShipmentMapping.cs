@@ -3,6 +3,7 @@ using Fw.Domain.Tms.Contracts;
 using Fw.Domain.Common.Dtos;
 using Fw.Domain.Tms.Entities;
 using Fw.Domain.Common.Contracts;
+using MassTransit;
 
 namespace Fw.Application.Tms.Mappings;
 
@@ -29,6 +30,7 @@ public class ShipmentMapping : Profile
             .ReverseMap();
 
         CreateMap<OrderDto, Shipment>()
+            .ForMember(d => d.Id, opt => opt.MapFrom(s => NewId.NextGuid()))
             .ForMember(d => d.OrderId, opt => opt.MapFrom(s => s.Id))
             .ReverseMap();
 

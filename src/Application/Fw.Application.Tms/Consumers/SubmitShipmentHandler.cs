@@ -1,7 +1,9 @@
 using AutoMapper;
 using Fw.Application.Tms.Interfaces;
+using Fw.Domain.Common.Contracts;
 using Fw.Domain.Tms.Contracts;
 using Fw.Domain.Tms.Entities;
+using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
@@ -12,24 +14,34 @@ public class SubmitShipmentHandler : MediatorRequestHandler<SubmitShipment, Ship
     readonly ITmsDbContext _context;
     readonly ILogger<SubmitShipmentHandler> _logger;
     readonly IMapper _mapper;
+    readonly IPublishEndpoint _publishEndpoint;
 
-    public SubmitShipmentHandler(ITmsDbContext context, ILogger<SubmitShipmentHandler> logger, IMapper mapper)
+    public SubmitShipmentHandler(ITmsDbContext context, ILogger<SubmitShipmentHandler> logger, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
 
-    protected override Task<ShipmentSubmitted> Handle(SubmitShipment request, CancellationToken cancellationToken)
+    protected override async Task<ShipmentSubmitted> Handle(SubmitShipment request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Submitting Shipment {PrimaryReference}", request.PrimaryReference);
 
         var shipment = _mapper.Map<Shipment>(request);
 
         _context.Shipments.Add(shipment);
-        _context.SaveChangesAsync(cancellationToken);
+        
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return Task.FromResult(new ShipmentSubmitted { ShipmentId = shipment.Id });
+        await _publishEndpoint.Publish<ShipmentCreated>(new
+        {
+            ShipmentId = shipment.Id,
+            ShipmentStatus = shipment.ShipmentStatus,
+            OrderId = shipment.OrderId
+        });
+
+        return new ShipmentSubmitted { ShipmentId = shipment.Id };
     }
 }

@@ -31,6 +31,11 @@ public class ShipOrderConsumer : IConsumer<ShipOrder>
 
         await _context.SaveChangesAsync(default);
 
-        await context.Publish(new ShipmentCreated { ShipmentId = shipment.Id, OrderId = context.Message.Order.Id });
+        await context.Publish<ShipmentCreated>(new
+        {
+            ShipmentId = shipment.Id,
+            ShipmentStatus = shipment.ShipmentStatus,
+            OrderId = context.Message.Order.Id
+        });
     }
 }

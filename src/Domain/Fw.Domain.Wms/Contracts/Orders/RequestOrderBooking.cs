@@ -3,7 +3,7 @@ using MassTransit.Mediator;
 
 namespace Fw.Domain.Wms.Contracts;
 
-public record RequestOrderBooking : Request<ShipOrder>
+public record RequestShipOrder : Request<ShipOrder>
 
 {
     public Guid OrderId { get; init; }

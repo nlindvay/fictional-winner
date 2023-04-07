@@ -61,7 +61,7 @@ public class ShipmentsController : ControllerBase
     }
 
     [HttpPost("{shipmentId}/actions/invoice")]
-    public async Task<IActionResult> RequestShipmentInvoicing(Guid shipmentId, CancellationToken cancellationToken)
+    public async Task<IActionResult> InvoiceShipment(Guid shipmentId, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Requesting Shipment Invoicing {ShipmentId}", shipmentId);
 

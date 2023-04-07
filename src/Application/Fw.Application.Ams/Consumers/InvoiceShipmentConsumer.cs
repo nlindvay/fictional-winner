@@ -24,13 +24,19 @@ public class InvoiceShipmentConsumer : IConsumer<InvoiceShipment>
     public async Task Consume(ConsumeContext<InvoiceShipment> context)
     {
         _logger.LogInformation("Invoice Shipment {ShipmentId}", context.Message.Shipment.Id);
-        
+
         var invoice = _mapper.Map<Invoice>(context.Message.Shipment);
 
         _context.Invoices.Add(invoice);
 
         await _context.SaveChangesAsync(context.CancellationToken);
 
-        await context.Publish(new InvoiceCreated { ShipmentId = context.Message.Shipment.Id, InvoiceId = invoice.Id });
+        await context.Publish<InvoiceCreated>(new
+        {
+            InvoiceId = invoice.Id,
+            InvoiceStatus = invoice.InvoiceStatus,
+            ShipmentId = invoice.ShipmentId,
+            OrderId = invoice.OrderId
+        });
     }
 }

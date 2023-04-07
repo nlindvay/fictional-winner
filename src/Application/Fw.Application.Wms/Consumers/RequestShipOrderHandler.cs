@@ -9,15 +9,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Wms.Consumers;
 
-public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBooking, ShipOrder>
+public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, ShipOrder>
 
 {
     readonly IWmsDbContext _context;
-    private readonly ILogger<RequestOrderBookingHandler> _logger;
+    private readonly ILogger<RequestShipOrderHandler> _logger;
     readonly IMapper _mapper;
     readonly IBus _bus;
 
-    public RequestOrderBookingHandler(IWmsDbContext context, ILogger<RequestOrderBookingHandler> logger, IMapper mapper, IBus bus)
+    public RequestShipOrderHandler(IWmsDbContext context, ILogger<RequestShipOrderHandler> logger, IMapper mapper, IBus bus)
     {
         _context = context;
         _logger = logger;
@@ -25,7 +25,7 @@ public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBoo
         _bus = bus;
     }
 
-    protected override async Task<ShipOrder> Handle(RequestOrderBooking request, CancellationToken cancellationToken)
+    protected override async Task<ShipOrder> Handle(RequestShipOrder request, CancellationToken cancellationToken)
     {
         var order = _context.Orders
             .Include(order => order.OrderLines)

@@ -1,7 +1,11 @@
+using System.Diagnostics;
 using Fw.Application.Tms.Interfaces;
 using Fw.Infrastructure.Persistance.Tms;
 using Fw.Presentation.Api.Tms.Services;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Serilog;
 
 
@@ -25,6 +29,17 @@ builder.Host.UseSerilog((context, cfg) =>
     cfg.WriteTo.Console();
 });
 
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracerProviderBuilder =>
+        tracerProviderBuilder
+            .AddSource("MassTransit")
+            .AddSource(DiagnosticsConfig.ActivitySource.Name)
+            .ConfigureResource(resource => resource
+                .AddService(DiagnosticsConfig.ServiceName)
+                .AddTelemetrySdk())
+            .AddAspNetCoreInstrumentation()
+            .AddJaegerExporter());
+            
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddMaps(assemblies);
@@ -53,3 +68,9 @@ app.MapControllers();
 app.UseSerilogRequestLogging();
 
 app.Run();
+
+public static class DiagnosticsConfig
+{
+    public const string ServiceName = "Tms";
+    public static ActivitySource ActivitySource = new ActivitySource(ServiceName);
+}

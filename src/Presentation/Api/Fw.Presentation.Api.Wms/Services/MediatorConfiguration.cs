@@ -9,7 +9,7 @@ public static partial class WebApplicationBuilderExtensions
     {
         builder.Services.AddMediator(cfg =>
         {
-            cfg.AddConsumer<RequestOrderBookingHandler>();
+            cfg.AddConsumer<RequestShipOrderHandler>();
             cfg.AddConsumer<SubmitOrderHandler>();
             cfg.AddConsumer<GetOrderHandler>();
             cfg.AddConsumer<PaginateOrdersHandler>();

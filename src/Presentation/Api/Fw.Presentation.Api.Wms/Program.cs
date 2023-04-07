@@ -1,10 +1,14 @@
-﻿using Fw.Application.Wms.Consumers;
+﻿using System.Diagnostics;
+using Fw.Application.Wms.Consumers;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Wms;
 using Fw.Presentation.Api.Wms.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using RabbitMQ.Client;
 using Serilog;
 
@@ -28,6 +32,18 @@ builder.Host.UseSerilog((context, cfg) =>
 
     cfg.WriteTo.Console();
 });
+
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracerProviderBuilder =>
+        tracerProviderBuilder
+            .AddSource("MassTransit")
+            .AddSource(DiagnosticsConfig.ActivitySource.Name)
+            .ConfigureResource(resource => resource
+                .AddService(DiagnosticsConfig.ServiceName)
+                .AddTelemetrySdk())
+            .AddAspNetCoreInstrumentation()
+            .AddJaegerExporter());
+
 
 builder.Services.AddAutoMapper(cfg =>
 {
@@ -57,3 +73,9 @@ app.MapControllers();
 app.UseSerilogRequestLogging();
 
 app.Run();
+
+public static class DiagnosticsConfig
+{
+    public const string ServiceName = "Wms";
+    public static ActivitySource ActivitySource = new ActivitySource(ServiceName);
+}
