@@ -2,7 +2,7 @@ using Fw.Domain.Common.Interfaces;
 
 namespace Fw.Domain.Wms.Entities;
 
-public class Sku : IEntity, IAuditable
+public class Sku : IEntity, IAuditable, IOwner
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; } = Guid.Empty;

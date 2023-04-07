@@ -3,7 +3,7 @@ using Fw.Domain.Common.Enums;
 
 namespace Fw.Domain.Wms.Entities;
 
-public class Order : IEntity, IAuditable
+public class Order : IEntity, IAuditable, IOwner
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; } = Guid.Empty;

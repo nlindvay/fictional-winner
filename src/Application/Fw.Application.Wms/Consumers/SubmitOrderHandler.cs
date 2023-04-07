@@ -36,7 +36,8 @@ public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmi
             CustomerId = NewId.NextGuid(),
             PrimaryReference = request.PrimaryReference,
             SecondaryReference = request.SecondaryReference,
-            OrderStatus = OrderStatus.Draft
+            OrderStatus = OrderStatus.Draft,
+            Version = 1
         };
 
         _context.Orders.Add(order);

@@ -58,7 +58,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddMaps(assemblies);
 });
 
-builder.Services.AddDbContext<AmsDbContext>(options => options.UseInMemoryDatabase("AmsDb"));
+builder.Services.AddDbContext<AmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=AmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<IAmsDbContext>(provider => provider.GetService<AmsDbContext>());
 
 builder.ConfigureMassTransit();
@@ -72,6 +72,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var amsDbContext = scope.ServiceProvider.GetRequiredService<AmsDbContext>();
+        amsDbContext.Database.EnsureCreated();
+        // amsDbContext.Seed();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }

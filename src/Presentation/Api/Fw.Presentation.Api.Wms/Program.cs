@@ -50,7 +50,7 @@ builder.Services.AddAutoMapper(cfg =>
     cfg.AddMaps(assemblies);
 });
 
-builder.Services.AddDbContext<WmsDbContext>(options => options.UseInMemoryDatabase("WmsDb"));
+builder.Services.AddDbContext<WmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=WmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<IWmsDbContext>(provider => provider.GetService<WmsDbContext>());
 
 builder.ConfigureMassTransit();
@@ -64,6 +64,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var wmsDbContext = scope.ServiceProvider.GetRequiredService<WmsDbContext>();
+        wmsDbContext.Database.EnsureCreated();
+        // wmsDbContext.Seed();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }

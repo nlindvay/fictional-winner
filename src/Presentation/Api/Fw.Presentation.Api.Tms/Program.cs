@@ -39,13 +39,13 @@ builder.Services.AddOpenTelemetry()
                 .AddTelemetrySdk())
             .AddAspNetCoreInstrumentation()
             .AddJaegerExporter());
-            
+
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddMaps(assemblies);
 });
 
-builder.Services.AddDbContext<TmsDbContext>(options => options.UseInMemoryDatabase("TmsDb"));
+builder.Services.AddDbContext<TmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=TmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<ITmsDbContext>(provider => provider.GetService<TmsDbContext>());
 
 builder.ConfigureMassTransit();
@@ -59,6 +59,13 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var tmsDbContext = scope.ServiceProvider.GetRequiredService<TmsDbContext>();
+        tmsDbContext.Database.EnsureCreated();
+        // tmsDbContext.Seed();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }

@@ -12,7 +12,7 @@ public static class EntityTypeBuilderExtensions
         builder.Property(e => e.ClientId).IsRequired();
         builder.Property(e => e.IsActive).IsRequired();
         builder.Property(e => e.IsDeleted).IsRequired();
-        builder.Property(e => e.Version).IsRowVersion();
+        builder.Property(e => e.Version);
 
         return builder;
     }
