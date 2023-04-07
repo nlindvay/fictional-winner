@@ -19,4 +19,8 @@ public class Order : IEntity, IAuditable
     public Guid CustomerId { get; set; }
     public OrderStatus OrderStatus { get; set; }
     public ICollection<OrderLine> OrderLines { get; set; }
+    public Guid? ShipmentId { get; set; }
+    public ShipmentStatus ShipmentStatus { get; set; }
+    public Guid? InvoiceId { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
 }

@@ -1,3 +1,5 @@
+using Fw.Domain.Common.Enums;
+
 namespace Fw.Domain.Common.Dtos;
 
 public record InvoiceDto
@@ -16,5 +18,12 @@ public record InvoiceDto
     public string PrimaryReference { get; set; }
     public string SecondaryReference { get; set; }
     public string InvoiceNumber { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
     public InvoiceLineDto[] InvoiceLines { get; set; }
+
+    public Guid? OrderId { get; set; }
+    public OrderStatus OrderStatus { get; set; }
+    public Guid? ShipmentId { get; set; }
+    public ShipmentStatus ShipmentStatus { get; set; }
+
 }

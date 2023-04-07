@@ -1,3 +1,4 @@
+using Fw.Domain.Common.Enums;
 using Fw.Domain.Tms.Entities;
 using Fw.Infrastructure.Persistance.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -27,5 +28,17 @@ public class ShipmentConfiguration : IEntityTypeConfiguration<Shipment>
             .IsRequired();
 
         builder.HasMany(e => e.Packages);
+
+        builder.Property(e => e.OrderId)
+            .IsRequired(false);
+
+        builder.Property(e => e.OrderStatus)
+            .HasDefaultValue(OrderStatus.None);
+
+        builder.Property(e => e.InvoiceId)
+            .IsRequired(false);
+
+        builder.Property(e => e.InvoiceStatus)
+            .HasDefaultValue(InvoiceStatus.None);
     }
 }

@@ -1,8 +1,6 @@
-using Fw.Application.Tms.Consumers;
 using Fw.Application.Tms.Interfaces;
-using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Tms;
-using MassTransit;
+using Fw.Presentation.Api.Tms.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -35,33 +33,8 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<TmsDbContext>(options => options.UseInMemoryDatabase("TmsDb"));
 builder.Services.AddScoped<ITmsDbContext>(provider => provider.GetService<TmsDbContext>());
 
-builder.Services.AddMassTransit(cfg =>
-{
-
-    cfg.AddConsumer<OrderBookingRequestedConsumer>();
-
-    cfg.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host("localhost", "/", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
-
-        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("fw", false));
-    });
-});
-
-builder.Services.AddMediator(cfg =>
-{
-    cfg.AddConsumer<SubmitShipmentHandler>();
-    cfg.AddConsumer<SubmitPackHandler>();
-    cfg.AddConsumer<SubmitPackLineHandler>();
-    cfg.AddConsumer<PaginateShipmentsHandler>();
-    cfg.AddConsumer<GetShipmentHandler>();
-    cfg.AddConsumer<RequestShipmentInvoicingHandler>();
-});
-
+builder.ConfigureMassTransit();
+builder.ConfigureMediator();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

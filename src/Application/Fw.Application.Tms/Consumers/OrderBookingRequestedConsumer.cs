@@ -7,23 +7,23 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class OrderBookingRequestedConsumer : IConsumer<OrderShippingRequested>
+public class ShipOrderConsumer : IConsumer<ShipOrder>
 
 {
     private readonly ITmsDbContext _context;
-    private readonly ILogger<OrderBookingRequestedConsumer> _logger;
+    private readonly ILogger<ShipOrderConsumer> _logger;
     private readonly IMapper _mapper;
 
-    public OrderBookingRequestedConsumer(ITmsDbContext context, ILogger<OrderBookingRequestedConsumer> logger, IMapper mapper)
+    public ShipOrderConsumer(ITmsDbContext context, ILogger<ShipOrderConsumer> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
     }
 
-    public async Task Consume(ConsumeContext<OrderShippingRequested> context)
+    public async Task Consume(ConsumeContext<ShipOrder> context)
     {
-        _logger.LogInformation("OrderBookingRequestedConsumer: {OrderId}", context.Message.Order.Id);
+        _logger.LogInformation("ShipOrderConsumer: {OrderId}", context.Message.Order.Id);
 
         var shipment = _mapper.Map<Shipment>(context.Message.Order);
 

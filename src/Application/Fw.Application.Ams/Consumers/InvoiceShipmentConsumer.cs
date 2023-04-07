@@ -7,23 +7,23 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Ams.Consumers;
 
-public class ShipmentInvoicingRequestedConsumer : IConsumer<ShipmentInvoicingRequested>
+public class InvoiceShipmentConsumer : IConsumer<InvoiceShipment>
 
 {
     readonly IAmsDbContext _context;
-    readonly ILogger<ShipmentInvoicingRequestedConsumer> _logger;
+    readonly ILogger<InvoiceShipmentConsumer> _logger;
     readonly IMapper _mapper;
 
-    public ShipmentInvoicingRequestedConsumer(IAmsDbContext context, ILogger<ShipmentInvoicingRequestedConsumer> logger, IMapper mapper)
+    public InvoiceShipmentConsumer(IAmsDbContext context, ILogger<InvoiceShipmentConsumer> logger, IMapper mapper)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
     }
 
-    public async Task Consume(ConsumeContext<ShipmentInvoicingRequested> context)
+    public async Task Consume(ConsumeContext<InvoiceShipment> context)
     {
-        _logger.LogInformation("Shipment Invoicing Requested {ShipmentId}", context.Message.Shipment.Id);
+        _logger.LogInformation("Invoice Shipment {ShipmentId}", context.Message.Shipment.Id);
         
         var invoice = _mapper.Map<Invoice>(context.Message.Shipment);
 

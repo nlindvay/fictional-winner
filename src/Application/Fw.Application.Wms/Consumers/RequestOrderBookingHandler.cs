@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Wms.Consumers;
 
-public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBooking, OrderBookingRequested>
+public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBooking, ShipOrder>
 
 {
     readonly IWmsDbContext _context;
@@ -25,13 +25,13 @@ public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBoo
         _bus = bus;
     }
 
-    protected override async Task<OrderBookingRequested> Handle(RequestOrderBooking request, CancellationToken cancellationToken)
+    protected override async Task<ShipOrder> Handle(RequestOrderBooking request, CancellationToken cancellationToken)
     {
         var order = _context.Orders
             .Include(order => order.OrderLines)
             .FirstOrDefault(order => order.Id == request.OrderId);
 
-        var orderBookingRequested = _mapper.Map<OrderBookingRequested>(order);
+        var ShipOrder = _mapper.Map<ShipOrder>(order);
 
         if (order == null)
         {
@@ -40,8 +40,8 @@ public class RequestOrderBookingHandler : MediatorRequestHandler<RequestOrderBoo
         }
         else
         {
-            await _bus.Publish(orderBookingRequested, cancellationToken);
-            return orderBookingRequested;
+            await _bus.Publish(ShipOrder, cancellationToken);
+            return ShipOrder;
         }
     }
 }

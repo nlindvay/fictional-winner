@@ -22,6 +22,8 @@ public class InvoiceMapping : Profile
         CreateMap<SubmitInvoiceLine, InvoiceLine>()
             .ReverseMap();
 
-        CreateMap<ShipmentDto, Invoice>();
+        CreateMap<ShipmentDto, Invoice>()
+            .ForMember(d => d.ShipmentId, opt => opt.MapFrom(s => s.Id))
+            .ReverseMap();
     }
 }

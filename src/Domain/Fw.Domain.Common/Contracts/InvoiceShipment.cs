@@ -2,7 +2,7 @@ using Fw.Domain.Common.Dtos;
 
 namespace Fw.Domain.Common.Contracts;
 
-public record ShipmentInvoicingRequested
+public record InvoiceShipment
 {
     public ShipmentDto Shipment { get; init; }
 }

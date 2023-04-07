@@ -18,4 +18,9 @@ public record OrderDto
     public Guid CustomerId { get; set; }
     public OrderStatus OrderStatus { get; set; }
     public OrderLineDto[] OrderLines { get; set; }
+
+    public Guid? ShipmentId { get; set; }
+    public ShipmentStatus ShipmentStatus { get; set; }
+    public Guid? InvoiceId { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
 }

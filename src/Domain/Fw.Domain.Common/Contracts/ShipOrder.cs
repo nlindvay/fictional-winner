@@ -2,7 +2,7 @@ using Fw.Domain.Common.Dtos;
 
 namespace Fw.Domain.Common.Contracts;
 
-public record OrderShippingRequested
+public record ShipOrder
 {
     public OrderDto Order { get; init; }
 }

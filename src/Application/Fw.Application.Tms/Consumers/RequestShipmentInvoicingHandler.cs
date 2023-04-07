@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;
 
-public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShipmentInvoicing, ShipmentInvoicingRequested>
+public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShipmentInvoicing, InvoiceShipment>
 {
     readonly ITmsDbContext _context;
     readonly ILogger<RequestShipmentInvoicingHandler> _logger;
@@ -24,14 +24,14 @@ public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShi
         _bus = bus;
     }
 
-    protected override async Task<ShipmentInvoicingRequested> Handle(RequestShipmentInvoicing request, CancellationToken cancellationToken)
+    protected override async Task<InvoiceShipment> Handle(RequestShipmentInvoicing request, CancellationToken cancellationToken)
     {
         var shipment = _context.Shipments
             .Include(shipment => shipment.Packages)
             .ThenInclude(pack => pack.PackLines)
             .FirstOrDefault(shipment => shipment.Id == request.ShipmentId);
 
-        var shipmentInvoicingRequested = _mapper.Map<ShipmentInvoicingRequested>(shipment);
+        var invoiceShipment = _mapper.Map<InvoiceShipment>(shipment);
 
         if (shipment == null)
         {
@@ -40,8 +40,8 @@ public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShi
         }
         else
         {
-            await _bus.Publish(shipmentInvoicingRequested, cancellationToken);
-            return shipmentInvoicingRequested;
+            await _bus.Publish(invoiceShipment, cancellationToken);
+            return invoiceShipment;
         }
     }
 }

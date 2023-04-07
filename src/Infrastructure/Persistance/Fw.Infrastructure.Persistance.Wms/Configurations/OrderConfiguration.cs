@@ -1,3 +1,4 @@
+using Fw.Domain.Common.Enums;
 using Fw.Domain.Common.Interfaces;
 using Fw.Domain.Wms.Entities;
 using Fw.Infrastructure.Persistance.Common.Extensions;
@@ -29,5 +30,17 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .IsRequired();
 
         builder.HasMany(e => e.OrderLines);
+
+        builder.Property(e => e.ShipmentId)
+            .IsRequired(false);
+
+        builder.Property(e => e.ShipmentStatus)
+            .HasDefaultValue(ShipmentStatus.None);
+
+        builder.Property(e => e.InvoiceId)
+            .IsRequired(false);
+
+        builder.Property(e => e.InvoiceStatus)
+            .HasDefaultValue(InvoiceStatus.None);
     }
 }

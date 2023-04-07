@@ -1,8 +1,6 @@
-using Fw.Application.Ams.Consumers;
 using Fw.Application.Ams.Interfaces;
-using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Ams;
-using MassTransit;
+using Fw.Presentation.Api.Ams.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -35,31 +33,8 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<AmsDbContext>(options => options.UseInMemoryDatabase("AmsDb"));
 builder.Services.AddScoped<IAmsDbContext>(provider => provider.GetService<AmsDbContext>());
 
-builder.Services.AddMassTransit(cfg =>
-{
-
-    cfg.AddConsumer<ShipmentInvoicingRequestedConsumer>();
-
-    cfg.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host("localhost", "/", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
-
-        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("fw", false));
-    });
-});
-
-builder.Services.AddMediator(cfg =>
-{
-    cfg.AddConsumer<SubmitInvoiceHandler>();
-    cfg.AddConsumer<SubmitInvoiceLineHandler>();
-    cfg.AddConsumer<PaginateInvoicesHandler>();
-    cfg.AddConsumer<GetInvoiceHandler>();
-});
-
+builder.ConfigureMassTransit();
+builder.ConfigureMediator();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

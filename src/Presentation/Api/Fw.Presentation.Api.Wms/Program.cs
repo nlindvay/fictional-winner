@@ -1,8 +1,11 @@
 ﻿using Fw.Application.Wms.Consumers;
 using Fw.Application.Wms.Interfaces;
+using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Wms;
+using Fw.Presentation.Api.Wms.Services;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 using Serilog;
 
 
@@ -34,33 +37,8 @@ builder.Services.AddAutoMapper(cfg =>
 builder.Services.AddDbContext<WmsDbContext>(options => options.UseInMemoryDatabase("WmsDb"));
 builder.Services.AddScoped<IWmsDbContext>(provider => provider.GetService<WmsDbContext>());
 
-builder.Services.AddMassTransit(cfg =>
-{
-    cfg.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host("localhost", "/", h =>
-        {
-            h.Username("guest");
-            h.Password("guest");
-        });
-
-        cfg.ConfigureEndpoints(context, new KebabCaseEndpointNameFormatter("fw", false));
-
-    });
-});
-
-builder.Services.AddMediator(cfg =>
-{
-    cfg.AddConsumer<RequestOrderBookingHandler>();
-    cfg.AddConsumer<SubmitOrderHandler>();
-    cfg.AddConsumer<GetOrderHandler>();
-    cfg.AddConsumer<PaginateOrdersHandler>();
-    cfg.AddConsumer<AddOrderLineHandler>();
-    cfg.AddConsumer<SubmitSkuHandler>();
-    cfg.AddConsumer<GetSkuHandler>();
-    cfg.AddConsumer<PaginateSkusHandler>();
-});
-
+builder.ConfigureMassTransit();
+builder.ConfigureMediator();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

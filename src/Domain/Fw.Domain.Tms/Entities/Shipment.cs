@@ -19,5 +19,8 @@ public class Shipment : IEntity, IAuditable, IOwner
     public string SecondaryReference { get; set; }
     public ShipmentStatus ShipmentStatus { get; set; }
     public ICollection<Pack> Packages { get; set; }
-
+    public Guid? OrderId { get; set; }
+    public OrderStatus OrderStatus { get; set; }
+    public Guid? InvoiceId { get; set; }
+    public InvoiceStatus InvoiceStatus { get; set; }
 }

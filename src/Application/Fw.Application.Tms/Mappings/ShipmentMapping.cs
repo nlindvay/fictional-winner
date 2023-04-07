@@ -29,11 +29,12 @@ public class ShipmentMapping : Profile
             .ReverseMap();
 
         CreateMap<OrderDto, Shipment>()
+            .ForMember(d => d.OrderId, opt => opt.MapFrom(s => s.Id))
             .ReverseMap();
 
         CreateMap<OrderLineDto, Pack>();
 
-        CreateMap<Shipment, ShipmentInvoicingRequested>()
+        CreateMap<Shipment, InvoiceShipment>()
             .ForMember(dest => dest.Shipment, opt => opt.MapFrom(src => src))
             .ReverseMap();
     }

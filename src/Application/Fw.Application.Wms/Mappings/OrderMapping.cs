@@ -15,7 +15,7 @@ public class OrderMappings : Profile
             .ReverseMap();
         CreateMap<OrderLine, OrderLineDto>()
             .ReverseMap();
-        CreateMap<Order, OrderBookingRequested>()
+        CreateMap<Order, ShipOrder>()
             .ForMember(dest => dest.Order, opt => opt.MapFrom(src => src))
             .ReverseMap();
         

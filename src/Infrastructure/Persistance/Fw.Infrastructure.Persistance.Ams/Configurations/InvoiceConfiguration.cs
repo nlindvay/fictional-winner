@@ -1,4 +1,5 @@
 using Fw.Domain.Ams.Entities;
+using Fw.Domain.Common.Enums;
 using Fw.Infrastructure.Persistance.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,5 +28,17 @@ public class InvoiceConfiguration : IEntityTypeConfiguration<Invoice>
             .IsRequired();
 
         builder.HasMany(e => e.InvoiceLines);
+
+        builder.Property(e => e.OrderId)
+            .IsRequired(false);
+
+        builder.Property(e => e.OrderStatus)
+            .HasDefaultValue(OrderStatus.None);
+
+        builder.Property(e => e.ShipmentId)
+            .IsRequired(false);
+
+        builder.Property(e => e.ShipmentStatus)
+            .HasDefaultValue(ShipmentStatus.None);
     }
 }

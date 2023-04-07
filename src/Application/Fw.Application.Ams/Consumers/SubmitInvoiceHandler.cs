@@ -2,6 +2,8 @@ using AutoMapper;
 using Fw.Application.Ams.Interfaces;
 using Fw.Domain.Ams.Contracts;
 using Fw.Domain.Ams.Entities;
+using Fw.Domain.Common.Contracts;
+using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
@@ -14,11 +16,14 @@ public class SubmitInvoiceHandler : MediatorRequestHandler<SubmitInvoice, Invoic
     readonly ILogger<SubmitInvoiceHandler> _logger;
     readonly IMapper _mapper;
 
-    public SubmitInvoiceHandler(IAmsDbContext context, ILogger<SubmitInvoiceHandler> logger, IMapper mapper)
+    readonly IPublishEndpoint _publishEndpoint;
+
+    public SubmitInvoiceHandler(IAmsDbContext context, ILogger<SubmitInvoiceHandler> logger, IMapper mapper, IPublishEndpoint publishEndpoint)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
+        _publishEndpoint = publishEndpoint;
     }
 
     protected override async Task<InvoiceSubmitted> Handle(SubmitInvoice request, CancellationToken cancellationToken)
@@ -28,6 +33,8 @@ public class SubmitInvoiceHandler : MediatorRequestHandler<SubmitInvoice, Invoic
         var invoice = _mapper.Map<Invoice>(request);
         _context.Invoices.Add(invoice);
         await _context.SaveChangesAsync(cancellationToken);
+
+        await _publishEndpoint.Publish<InvoiceCreated>(new { InvoiceId = invoice.Id, InvoiceStatus = invoice.InvoiceStatus, ShipmentId = invoice.ShipmentId, });
 
         return new InvoiceSubmitted { InvoiceId = invoice.Id };
     }
