@@ -3,12 +3,9 @@ WORKDIR /app
 #
 # copy csproj and restore as distinct layers
 COPY *.sln .
-COPY src/Application/Fw.Application.Tms/*.csproj ./src/Application/Fw.Application.Tms/
 COPY src/Application/Fw.Application.Wms/*.csproj ./src/Application/Fw.Application.Wms/
-COPY Experiment/*.csproj ./Experiment/
-COPY Experiment.Procedure/*.csproj ./Experiment.Procedure/
-COPY Experiment.Sample/*.csproj ./Experiment.Sample/
-COPY Experiment.UnitTest/*.csproj ./Experiment.UnitTest/ 
+COPY src/Application/Fw.Application.Tms/*.csproj ./src/Application/Fw.Application.Tms/
+COPY src/Application/Fw.Application.Ams/*.csproj ./src/Application/Fw.Application.Ams/
 #
 RUN dotnet restore 
 #

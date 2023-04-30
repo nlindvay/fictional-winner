@@ -27,7 +27,7 @@ public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, 
 
     protected override async Task<ShipOrder> Handle(RequestShipOrder request, CancellationToken cancellationToken)
     {
-        var order = _context.Orders
+        var order = await _context.Orders
             .Include(order => order.OrderLines)
             .FirstOrDefaultAsync(order => order.Id == request.OrderId, cancellationToken);
 
