@@ -27,16 +27,18 @@ public class InvoiceShipmentConsumer : IConsumer<InvoiceShipment>
 
         var invoice = _mapper.Map<Invoice>(context.Message.Shipment);
 
-        _context.Invoices.Add(invoice);
+        await _context.Invoices.AddAsync(invoice, context.CancellationToken);
 
         await _context.SaveChangesAsync(context.CancellationToken);
 
-        await context.Publish<InvoiceCreated>(new
+        var invoiceCreated = new
         {
             InvoiceId = invoice.Id,
             InvoiceStatus = invoice.InvoiceStatus,
             ShipmentId = invoice.ShipmentId,
             OrderId = invoice.OrderId
-        });
+        };
+
+        await context.Publish<InvoiceCreated>(invoiceCreated, context.CancellationToken);
     }
 }

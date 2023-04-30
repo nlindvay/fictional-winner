@@ -6,7 +6,7 @@ using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Ams.Consumers;
+namespace Fw.Application.Ams.Handlers;
 
 public class GetInvoiceHandler : MediatorRequestHandler<GetInvoice, InvoiceDto>
 {

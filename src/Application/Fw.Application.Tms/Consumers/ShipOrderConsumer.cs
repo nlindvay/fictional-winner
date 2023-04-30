@@ -27,15 +27,16 @@ public class ShipOrderConsumer : IConsumer<ShipOrder>
 
         var shipment = _mapper.Map<Shipment>(context.Message.Order);
 
-        _context.Shipments.Add(shipment);
+        await _context.Shipments.AddAsync(shipment, context.CancellationToken);
 
-        await _context.SaveChangesAsync(default);
+        await _context.SaveChangesAsync(context.CancellationToken);
 
         await context.Publish<ShipmentCreated>(new
         {
             ShipmentId = shipment.Id,
             ShipmentStatus = shipment.ShipmentStatus,
             OrderId = context.Message.Order.Id
-        });
+        },
+        context.CancellationToken);
     }
 }

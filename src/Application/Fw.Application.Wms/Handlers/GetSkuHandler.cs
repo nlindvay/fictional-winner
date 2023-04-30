@@ -3,9 +3,10 @@ using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Common.Dtos;
 using Fw.Domain.Wms.Contracts;
 using MassTransit.Mediator;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class GetSkuHandler : MediatorRequestHandler<GetSku, SkuDto>
 
@@ -26,8 +27,9 @@ public class GetSkuHandler : MediatorRequestHandler<GetSku, SkuDto>
     {
         _logger.LogInformation("GetSkuConsumer: {SkuId}", request.SkuId);
 
-        var sku = _context.Skus.FirstOrDefault(sku => sku.Id == request.SkuId);
+        var sku = await _context.Skus
+            .FirstOrDefaultAsync(sku => sku.Id == request.SkuId, cancellationToken);
 
-        return _mapper.Map<SkuDto>(sku) ?? null;
+        return sku == null ? null : _mapper.Map<SkuDto>(sku);
     }
 }

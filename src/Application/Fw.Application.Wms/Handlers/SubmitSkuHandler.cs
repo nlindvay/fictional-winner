@@ -6,7 +6,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class SubmitSkuHandler : MediatorRequestHandler<SubmitSku, SkuSubmitted>
 
@@ -35,7 +35,7 @@ public class SubmitSkuHandler : MediatorRequestHandler<SubmitSku, SkuSubmitted>
             SkuDescription = request.SkuDescription
         };
 
-        _context.Skus.Add(Sku);
+        await _context.Skus.AddAsync(Sku, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         return new SkuSubmitted

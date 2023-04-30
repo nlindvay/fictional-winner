@@ -6,7 +6,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLineAdded>
 {
@@ -29,8 +29,8 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
     {
         _logger.LogInformation("AddOrderLineConsumer: {OrderId} {SkuId} {Quantity}", request.OrderId, request.SkuId, request.Quantity);
 
-        var order = await _context.Orders.FindAsync(request.OrderId);
-        var sku = await _context.Skus.FindAsync(request.SkuId);
+        var order = await _context.Orders.FindAsync(request.OrderId, cancellationToken);
+        var sku = await _context.Skus.FindAsync(request.SkuId, cancellationToken);
 
         var orderLine = new OrderLine
         {
@@ -40,7 +40,7 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
             LineQuantity = request.Quantity
         };
 
-        _context.OrderLines.Add(orderLine);
+        await _context.OrderLines.AddAsync(orderLine, cancellationToken);
 
         await _context.SaveChangesAsync(cancellationToken);
 
@@ -50,7 +50,7 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
             OrderLineId = orderLine.Id
         };
 
-        await _bus.Publish(orderLineAdded);
+        await _bus.Publish(orderLineAdded, cancellationToken);
 
         return orderLineAdded;
     }

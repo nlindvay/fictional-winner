@@ -1,4 +1,4 @@
-using Fw.Application.Wms.Consumers;
+using Fw.Application.Wms.Handlers;
 using MassTransit;
 
 namespace Fw.Presentation.Api.Wms.Services;

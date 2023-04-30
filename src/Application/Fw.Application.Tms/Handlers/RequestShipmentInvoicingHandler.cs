@@ -7,7 +7,7 @@ using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Tms.Consumers;
+namespace Fw.Application.Tms.Handlers;
 
 public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShipmentInvoicing, InvoiceShipment>
 {
@@ -29,7 +29,7 @@ public class RequestShipmentInvoicingHandler : MediatorRequestHandler<RequestShi
         var shipment = _context.Shipments
             .Include(shipment => shipment.Packages)
             .ThenInclude(pack => pack.PackLines)
-            .FirstOrDefault(shipment => shipment.Id == request.ShipmentId);
+            .FirstOrDefaultAsync(shipment => shipment.Id == request.ShipmentId, cancellationToken);
 
         var invoiceShipment = _mapper.Map<InvoiceShipment>(shipment);
 

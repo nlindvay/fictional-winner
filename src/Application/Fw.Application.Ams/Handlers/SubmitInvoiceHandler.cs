@@ -7,7 +7,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Ams.Consumers;
+namespace Fw.Application.Ams.Handlers;
 
 public class SubmitInvoiceHandler : MediatorRequestHandler<SubmitInvoice, InvoiceSubmitted>
 
@@ -31,16 +31,18 @@ public class SubmitInvoiceHandler : MediatorRequestHandler<SubmitInvoice, Invoic
         _logger.LogInformation("Submitting Invoice {PrimaryReference}", request.PrimaryReference);
 
         var invoice = _mapper.Map<Invoice>(request);
-        _context.Invoices.Add(invoice);
+        await _context.Invoices.AddAsync(invoice, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish<InvoiceCreated>(new
+        var invoiceCreated = new
         {
             InvoiceId = invoice.Id,
             InvoiceStatus = invoice.InvoiceStatus,
             ShipmentId = invoice.ShipmentId,
             OrderId = invoice.OrderId
-        });
+        };
+
+        await _publishEndpoint.Publish<InvoiceCreated>(invoiceCreated, cancellationToken);
 
         return new InvoiceSubmitted { InvoiceId = invoice.Id };
     }

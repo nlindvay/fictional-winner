@@ -6,7 +6,7 @@ using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Tms.Consumers;
+namespace Fw.Application.Tms.Handlers;
 
 public class GetShipmentHandler : MediatorRequestHandler<GetShipment, ShipmentDto>
 {

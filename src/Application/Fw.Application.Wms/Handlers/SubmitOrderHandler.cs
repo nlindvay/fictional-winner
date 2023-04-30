@@ -7,7 +7,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmitted>
 
@@ -40,7 +40,7 @@ public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmi
             Version = 1
         };
 
-        _context.Orders.Add(order);
+        await _context.Orders.AddAsync(order, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
         var orderSubmitted = new OrderSubmitted
@@ -48,7 +48,7 @@ public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmi
             OrderId = order.Id
         };
 
-        await _bus.Publish(orderSubmitted);
+        await _bus.Publish(orderSubmitted, cancellationToken);
 
         return orderSubmitted;
     }

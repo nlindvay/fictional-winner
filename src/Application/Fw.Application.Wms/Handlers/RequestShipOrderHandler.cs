@@ -7,7 +7,7 @@ using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, ShipOrder>
 
@@ -29,7 +29,7 @@ public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, 
     {
         var order = _context.Orders
             .Include(order => order.OrderLines)
-            .FirstOrDefault(order => order.Id == request.OrderId);
+            .FirstOrDefaultAsync(order => order.Id == request.OrderId, cancellationToken);
 
         var ShipOrder = _mapper.Map<ShipOrder>(order);
 

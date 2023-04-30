@@ -5,7 +5,7 @@ using Fw.Domain.Tms.Entities;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Tms.Consumers;
+namespace Fw.Application.Tms.Handlers;
 
 public class SubmitPackHandler : MediatorRequestHandler<SubmitPack, PackSubmitted>
 {
@@ -21,16 +21,15 @@ public class SubmitPackHandler : MediatorRequestHandler<SubmitPack, PackSubmitte
     }
 
 
-    protected override Task<PackSubmitted> Handle(SubmitPack request, CancellationToken cancellationToken)
+    protected async override Task<PackSubmitted> Handle(SubmitPack request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Submitting Pack for shipment {ShipmentId}", request.ShipmentId);
 
         var pack = _mapper.Map<Pack>(request);
 
-        _context.Packs.Add(pack);
-        _context.SaveChangesAsync(cancellationToken);
+        await _context.Packs.AddAsync(pack, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
 
-
-        return Task.FromResult(new PackSubmitted { PackId = pack.Id });
+        return new PackSubmitted { PackId = pack.Id };
     }
 }

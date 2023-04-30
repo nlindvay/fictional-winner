@@ -1,4 +1,4 @@
-using Fw.Application.Ams.Consumers;
+using Fw.Application.Ams.Handlers;
 using MassTransit;
 
 namespace Fw.Presentation.Api.Ams.Services;

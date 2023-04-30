@@ -2,6 +2,7 @@ using AutoMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Common.Contracts;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Wms.Consumers;
@@ -29,11 +30,11 @@ public class ShipmentCreatedConsumer : IConsumer<ShipmentCreated>
             return;
         }
 
-        var order = _context.Orders.FirstOrDefault(order => order.Id == context.Message.OrderId);
+        var order = await _context.Orders.FirstOrDefaultAsync(order => order.Id == context.Message.OrderId, context.CancellationToken);
 
         order.ShipmentId = context.Message.ShipmentId;
         order.ShipmentStatus = context.Message.ShipmentStatus;
 
-        await _context.SaveChangesAsync(default);
+        await _context.SaveChangesAsync(context.CancellationToken);
     }
 }

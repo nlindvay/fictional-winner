@@ -6,7 +6,7 @@ using MassTransit.Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Wms.Consumers;
+namespace Fw.Application.Wms.Handlers;
 
 public class PaginateOrdersHandler : MediatorRequestHandler<PaginateOrders, OrderDto[]>
 {

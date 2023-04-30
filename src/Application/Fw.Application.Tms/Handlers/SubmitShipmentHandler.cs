@@ -7,7 +7,7 @@ using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace Fw.Application.Tms.Consumers;
+namespace Fw.Application.Tms.Handlers;
 
 public class SubmitShipmentHandler : MediatorRequestHandler<SubmitShipment, ShipmentSubmitted>
 {
@@ -31,8 +31,8 @@ public class SubmitShipmentHandler : MediatorRequestHandler<SubmitShipment, Ship
 
         var shipment = _mapper.Map<Shipment>(request);
 
-        _context.Shipments.Add(shipment);
-        
+        await _context.Shipments.AddAsync(shipment, cancellationToken);
+
         await _context.SaveChangesAsync(cancellationToken);
 
         await _publishEndpoint.Publish<ShipmentCreated>(new
@@ -40,7 +40,7 @@ public class SubmitShipmentHandler : MediatorRequestHandler<SubmitShipment, Ship
             ShipmentId = shipment.Id,
             ShipmentStatus = shipment.ShipmentStatus,
             OrderId = shipment.OrderId
-        });
+        }, cancellationToken);
 
         return new ShipmentSubmitted { ShipmentId = shipment.Id };
     }
