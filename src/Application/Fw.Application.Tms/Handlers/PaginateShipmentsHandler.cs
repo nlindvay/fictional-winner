@@ -26,7 +26,7 @@ public class PaginateShipmentsHandler : MediatorRequestHandler<PaginateShipments
         return await _context.Shipments
             .Include(s => s.Packages)
             .ThenInclude(p => p.PackLines)
-            .Skip(request.Page * request.Size)
+            .Skip(Math.Max(0,(request.Page - 1)) * request.Size)
             .Take(request.Size)
             .Select(s => _mapper.Map<ShipmentDto>(s))
             .ToArrayAsync(cancellationToken);

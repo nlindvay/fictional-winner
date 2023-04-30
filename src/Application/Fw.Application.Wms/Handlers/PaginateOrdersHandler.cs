@@ -24,7 +24,9 @@ public class PaginateOrdersHandler : MediatorRequestHandler<PaginateOrders, Orde
 
     protected override Task<OrderDto[]> Handle(PaginateOrders request, CancellationToken cancellationToken)
     {
-        return _context.Orders.Include(order => order.OrderLines).Skip(request.Page * request.Size)
+        return _context.Orders
+            .Include(order => order.OrderLines)
+            .Skip(Math.Max(0,(request.Page - 1)) * request.Size)
             .Take(request.Size)
             .Select(order => _mapper.Map<OrderDto>(order))
             .ToArrayAsync(cancellationToken);

@@ -27,7 +27,7 @@ public class PaginateInvoicesHandler : MediatorRequestHandler<PaginateInvoices, 
 
         return await _context.Invoices
             .Include(i => i.InvoiceLines)
-            .Skip(request.Page * request.Size)
+            .Skip(Math.Max(0,(request.Page - 1)) * request.Size)
             .Take(request.Size)
             .Select(i => _mapper.Map<InvoiceDto>(i))
             .ToArrayAsync(cancellationToken);
