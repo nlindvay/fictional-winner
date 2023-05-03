@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Abstractions" Version="8.0.14" />
+    <PackageReference Include="MassTransit.Abstractions" Version="8.0.15" />
+    <PackageReference Include="MassTransit.Analyzers" Version="8.0.15" />
   </ItemGroup>
 
 </Project>

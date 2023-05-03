@@ -2,6 +2,8 @@ using System.Diagnostics;
 using Fw.Application.Tms.Interfaces;
 using Fw.Infrastructure.Persistance.Tms;
 using Fw.Presentation.Api.Tms.Services;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -40,10 +42,8 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
             .AddJaegerExporter());
 
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddMaps(assemblies);
-});
+builder.Services.AddSingleton(new TypeAdapterConfig());
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddDbContext<TmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=TmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<ITmsDbContext>(provider => provider.GetService<TmsDbContext>());

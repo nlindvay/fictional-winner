@@ -1,15 +1,10 @@
-using AutoMapper;
-using Fw.Domain.Common.Dtos;
-using Fw.Domain.Wms.Entities;
+using Mapster;
 
 namespace Fw.Application.Wms.Mappings;
 
-public class SkuMappings : Profile
-
+public class SkuMapping : IRegister
 {
-    public SkuMappings()
+    public void Register(TypeAdapterConfig config)
     {
-        CreateMap<Sku, SkuDto>()
-            .ReverseMap();
     }
 }

@@ -1,4 +1,4 @@
-using AutoMapper;
+using MapsterMapper;
 using Fw.Application.Ams.Interfaces;
 using Fw.Domain.Ams.Entities;
 using Fw.Domain.Common.Contracts;
@@ -26,7 +26,6 @@ public class InvoiceShipmentConsumer : IConsumer<InvoiceShipment>
         _logger.LogInformation("Invoice Shipment {ShipmentId}", context.Message.Shipment.Id);
 
         var invoice = _mapper.Map<Invoice>(context.Message.Shipment);
-
         await _context.Invoices.AddAsync(invoice, context.CancellationToken);
 
         await _context.SaveChangesAsync(context.CancellationToken);

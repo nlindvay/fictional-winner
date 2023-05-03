@@ -1,15 +1,13 @@
 ﻿using System.Diagnostics;
-using Fw.Application.Wms.Consumers;
 using Fw.Application.Wms.Interfaces;
-using Fw.Domain.Common.Contracts;
 using Fw.Infrastructure.Persistance.Wms;
 using Fw.Presentation.Api.Wms.Services;
-using MassTransit;
+using Mapster;
+using MapsterMapper;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using RabbitMQ.Client;
 using Serilog;
 
 
@@ -44,11 +42,8 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
             .AddJaegerExporter());
 
-
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddMaps(assemblies);
-});
+builder.Services.AddSingleton(new TypeAdapterConfig());
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddDbContext<WmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=WmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<IWmsDbContext>(provider => provider.GetService<WmsDbContext>());

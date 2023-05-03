@@ -3,12 +3,12 @@ using Fw.Application.Ams.Interfaces;
 using Fw.Infrastructure.Persistance.Ams;
 using Fw.Presentation.Api.Ams.Services;
 using Microsoft.EntityFrameworkCore;
-using OpenTelemetry;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
-
+using Mapster;
+using MapsterMapper;
 
 var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
@@ -33,30 +33,16 @@ builder.Host.UseSerilog((context, cfg) =>
 builder.Services.AddOpenTelemetry()
     .WithTracing(tracerProviderBuilder =>
         tracerProviderBuilder
+            .AddSource("MassTransit")
+            .AddSource(DiagnosticsConfig.ActivitySource.Name)
             .ConfigureResource(resource => resource
                 .AddService(DiagnosticsConfig.ServiceName)
                 .AddTelemetrySdk())
-            .AddSource("MassTransit")
-            .AddSource(DiagnosticsConfig.ActivitySource.Name)
             .AddAspNetCoreInstrumentation()
-            .AddJaegerExporter(o =>
-            {
-                o.AgentPort = 6831;
-                o.MaxPayloadSizeInBytes = 4096;
-                o.ExportProcessorType = ExportProcessorType.Batch;
-                o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
-                {
-                    MaxQueueSize = 2048,
-                    ScheduledDelayMilliseconds = 5000,
-                    ExporterTimeoutMilliseconds = 30000,
-                    MaxExportBatchSize = 512,
-                };
-            }));
+            .AddJaegerExporter());
 
-builder.Services.AddAutoMapper(cfg =>
-{
-    cfg.AddMaps(assemblies);
-});
+builder.Services.AddSingleton(new TypeAdapterConfig());
+builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddDbContext<AmsDbContext>(options => options.UseSqlServer("Server=localhost;Database=AmsDb;User Id=SA;Password=A&VeryComplex123Password;MultipleActiveResultSets=true"));
 builder.Services.AddScoped<IAmsDbContext>(provider => provider.GetService<AmsDbContext>());

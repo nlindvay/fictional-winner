@@ -1,4 +1,4 @@
-using AutoMapper;
+using MapsterMapper;
 using Fw.Application.Ams.Interfaces;
 using Fw.Domain.Ams.Contracts;
 using Fw.Domain.Common.Dtos;

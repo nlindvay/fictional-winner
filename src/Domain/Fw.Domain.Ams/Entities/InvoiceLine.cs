@@ -17,7 +17,7 @@ public record InvoiceLine : IEntity, IAuditable, IOwner
     public Guid CustomerId { get; set; }
     public int LineNumber { get; set; }
     public string LineDescription { get; set; }
-    public string LineQuantity { get; set; }
+    public decimal LineQuantity { get; set; }
     public string LineCost { get; set; }
     public Guid InvoiceId { get; set; }
     public Invoice Invoice { get; set; }

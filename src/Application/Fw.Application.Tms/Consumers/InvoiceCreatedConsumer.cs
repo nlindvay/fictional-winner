@@ -1,8 +1,7 @@
-using AutoMapper;
 using Fw.Application.Tms.Interfaces;
 using Fw.Domain.Common.Contracts;
+using MapsterMapper;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace Fw.Application.Tms.Consumers;

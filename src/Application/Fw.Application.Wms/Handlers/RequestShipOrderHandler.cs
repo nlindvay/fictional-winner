@@ -1,4 +1,4 @@
-using AutoMapper;
+using MapsterMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Common.Contracts;
 using Fw.Domain.Wms.Contracts;
@@ -15,14 +15,14 @@ public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, 
     readonly IWmsDbContext _context;
     private readonly ILogger<RequestShipOrderHandler> _logger;
     readonly IMapper _mapper;
-    readonly IBus _bus;
+    readonly IPublishEndpoint _publisher;
 
-    public RequestShipOrderHandler(IWmsDbContext context, ILogger<RequestShipOrderHandler> logger, IMapper mapper, IBus bus)
+    public RequestShipOrderHandler(IWmsDbContext context, ILogger<RequestShipOrderHandler> logger, IMapper mapper, IPublishEndpoint publisher)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
-        _bus = bus;
+        _publisher = publisher;
     }
 
     protected override async Task<ShipOrder> Handle(RequestShipOrder request, CancellationToken cancellationToken)
@@ -40,7 +40,7 @@ public class RequestShipOrderHandler : MediatorRequestHandler<RequestShipOrder, 
         }
         else
         {
-            await _bus.Publish(ShipOrder, cancellationToken);
+            await _publisher.Publish(ShipOrder, cancellationToken);
             return ShipOrder;
         }
     }

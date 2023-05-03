@@ -1,4 +1,4 @@
-using AutoMapper;
+using MapsterMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Common.Enums;
 using Fw.Domain.Wms.Contracts;
@@ -15,14 +15,14 @@ public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmi
     readonly IWmsDbContext _context;
     readonly ILogger<SubmitOrderHandler> _logger;
     readonly IMapper _mapper;
-    readonly IBus _bus;
+    readonly IPublishEndpoint _publisher;
 
-    public SubmitOrderHandler(IWmsDbContext context, ILogger<SubmitOrderHandler> logger, IMapper mapper, IBus bus)
+    public SubmitOrderHandler(IWmsDbContext context, ILogger<SubmitOrderHandler> logger, IMapper mapper, IPublishEndpoint publisher)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
-        _bus = bus;
+        _publisher = publisher;
     }
 
     protected override async Task<OrderSubmitted> Handle(SubmitOrder request, CancellationToken cancellationToken)
@@ -48,7 +48,7 @@ public class SubmitOrderHandler : MediatorRequestHandler<SubmitOrder, OrderSubmi
             OrderId = order.Id
         };
 
-        await _bus.Publish(orderSubmitted, cancellationToken);
+        await _publisher.Publish(orderSubmitted, cancellationToken);
 
         return orderSubmitted;
     }

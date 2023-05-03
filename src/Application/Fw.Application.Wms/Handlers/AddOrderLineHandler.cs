@@ -1,4 +1,4 @@
-using AutoMapper;
+using MapsterMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Wms.Contracts;
 using Fw.Domain.Wms.Entities;
@@ -14,21 +14,21 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
     readonly IWmsDbContext _context;
     readonly ILogger<GetOrderHandler> _logger;
     readonly IMapper _mapper;
-    readonly IBus _bus;
+    readonly IPublishEndpoint _publisher;
 
 
-    public AddOrderLineHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper, IBus bus)
+    public AddOrderLineHandler(IWmsDbContext context, ILogger<GetOrderHandler> logger, IMapper mapper, IPublishEndpoint publisher)
     {
         _context = context;
         _logger = logger;
         _mapper = mapper;
-        _bus = bus;
+        _publisher = publisher;
     }
 
     protected override async Task<OrderLineAdded> Handle(AddOrderLine request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("AddOrderLineConsumer: {OrderId} {SkuId} {Quantity}", request.OrderId, request.SkuId, request.Quantity);
-
+        
         var order = await _context.Orders.FindAsync(request.OrderId, cancellationToken);
         var sku = await _context.Skus.FindAsync(request.SkuId, cancellationToken);
 
@@ -50,7 +50,8 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
             OrderLineId = orderLine.Id
         };
 
-        await _bus.Publish(orderLineAdded, cancellationToken);
+        
+        await _publisher.Publish(orderLineAdded, cancellationToken);
 
         return orderLineAdded;
     }

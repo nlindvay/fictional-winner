@@ -17,7 +17,6 @@ public record InvoiceDto
     public Guid CustomerId { get; set; }
     public string PrimaryReference { get; set; }
     public string SecondaryReference { get; set; }
-    public string InvoiceNumber { get; set; }
     public InvoiceStatus InvoiceStatus { get; set; }
     public InvoiceLineDto[] InvoiceLines { get; set; }
 

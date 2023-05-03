@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Fw.Domain.Common\Fw.Domain.Common.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <PackageReference Include="MassTransit.Abstractions" Version="8.0.14" />
-  </ItemGroup>
-
 </Project>
