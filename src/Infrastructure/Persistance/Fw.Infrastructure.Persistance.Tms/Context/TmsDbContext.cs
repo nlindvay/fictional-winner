@@ -1,12 +1,13 @@
 using Fw.Application.Tms.Interfaces;
 using Fw.Domain.Tms.Entities;
+using Fw.Infrastructure.Persistance.Common;
+using Fw.Infrastructure.Persistance.Common.Configurations;
 using Fw.Infrastructure.Persistance.Tms.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fw.Infrastructure.Persistance.Tms;
 
-public class TmsDbContext : DbContext, ITmsDbContext
-
+public class TmsDbContext : AuditableDbContext, ITmsDbContext
 {
     public TmsDbContext(DbContextOptions<TmsDbContext> options) : base(options)
     {
@@ -18,6 +19,7 @@ public class TmsDbContext : DbContext, ITmsDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfiguration(new AuditHistoryConfiguration());
         builder.ApplyConfiguration(new ShipmentConfiguration());
         builder.ApplyConfiguration(new PackConfiguration());
         builder.ApplyConfiguration(new PackLineConfiguration());
