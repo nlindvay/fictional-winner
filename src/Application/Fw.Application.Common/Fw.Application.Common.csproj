@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Domain\Fw.Domain.Tms\Fw.Domain.Tms.csproj" />
+        <ProjectReference Include="..\..\Domain\Fw.Domain.Common\Fw.Domain.Common.csproj" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.5.2" />

@@ -1,7 +1,7 @@
-using MapsterMapper;
 using Fw.Application.Wms.Interfaces;
 using Fw.Domain.Wms.Contracts;
 using Fw.Domain.Wms.Entities;
+using MapsterMapper;
 using MassTransit;
 using MassTransit.Mediator;
 using Microsoft.Extensions.Logging;
@@ -28,9 +28,9 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
     protected override async Task<OrderLineAdded> Handle(AddOrderLine request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("AddOrderLineConsumer: {OrderId} {SkuId} {Quantity}", request.OrderId, request.SkuId, request.Quantity);
-        
-        var order = await _context.Orders.FindAsync(request.OrderId, cancellationToken);
-        var sku = await _context.Skus.FindAsync(request.SkuId, cancellationToken);
+
+        var order = await _context.Orders.FindAsync(new object[] { request.OrderId }, cancellationToken);
+        var sku = await _context.Skus.FindAsync(new object[] { request.SkuId }, cancellationToken);
 
         var orderLine = new OrderLine
         {
@@ -50,7 +50,7 @@ public class AddOrderLineHandler : MediatorRequestHandler<AddOrderLine, OrderLin
             OrderLineId = orderLine.Id
         };
 
-        
+
         await _publisher.Publish(orderLineAdded, cancellationToken);
 
         return orderLineAdded;

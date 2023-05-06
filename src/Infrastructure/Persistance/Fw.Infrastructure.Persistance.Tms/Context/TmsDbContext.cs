@@ -2,12 +2,14 @@ using Fw.Application.Tms.Interfaces;
 using Fw.Domain.Tms.Entities;
 using Fw.Infrastructure.Persistance.Common;
 using Fw.Infrastructure.Persistance.Common.Configurations;
+using Fw.Infrastructure.Persistance.Common.Models;
 using Fw.Infrastructure.Persistance.Tms.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fw.Infrastructure.Persistance.Tms;
 
 public class TmsDbContext : AuditableDbContext, ITmsDbContext
+
 {
     public TmsDbContext(DbContextOptions<TmsDbContext> options) : base(options)
     {

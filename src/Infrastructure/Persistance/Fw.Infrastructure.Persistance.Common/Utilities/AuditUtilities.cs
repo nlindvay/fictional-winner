@@ -1,4 +1,4 @@
-using Fw.Infrastructure.Persistance.Common.Attributes;
+using Fw.Domain.Common.Attributes;
 
 namespace Fw.Infrastructure.Persistance.Common.Extensions;
 

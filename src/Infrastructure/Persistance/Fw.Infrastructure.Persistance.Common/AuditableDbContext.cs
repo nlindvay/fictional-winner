@@ -1,14 +1,17 @@
 using Fw.Infrastructure.Persistance.Common.Extensions;
+using Fw.Infrastructure.Persistance.Common.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Fw.Infrastructure.Persistance.Common;
 
-public class AuditableDbContext : DbContext
+public abstract class AuditableDbContext : DbContext
 {
     public AuditableDbContext(DbContextOptions options) : base(options)
     {
     }
 
+    public virtual DbSet<AuditHistory> AuditHistory { get; set; }
+    
     public override int SaveChanges()
     {
         var username = "@Admin";

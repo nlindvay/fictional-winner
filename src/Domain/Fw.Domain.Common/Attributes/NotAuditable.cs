@@ -1,4 +1,4 @@
-namespace Fw.Infrastructure.Persistance.Common.Attributes;
+namespace Fw.Domain.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 public class NotAuditable : Attribute
